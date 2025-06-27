@@ -1,0 +1,435 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    }
+header {   
+    background-image: url('header0.jpg');  
+    background-size: cover; /* 图片覆盖整个元素 */  
+    background-position: center; 
+    background-repeat: no-repeat; /* 图片不重复 */  
+    object-fit: cover;   /* 确保图片不会失真 */  
+    color: #fff; 
+    padding: 20px;  
+    display: flex;  
+    justify-content: space-between; 
+    align-items: center; 
+       
+}
+
+/*logo图片样式*/
+.logo img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.logo h1 {
+    margin: 0;
+    font-size: 24px;
+}
+/*搜索框整体*/  
+.search-box {
+    display: flex;
+    align-items: center;
+    position: relative;
+    border-radius: 20px;
+    width: 400px;
+    overflow: hidden; /* 防止内容溢出 */ 
+} 
+
+/* 输入框样式 */  
+.search-box input[type="text"] {  
+    flex: 1; 
+    padding: 10px 40px 10px 60px; /* 为左侧LOGO和右侧图标留出空间 */  
+    border: none; /* 移除边框，因为父级.search-box会负责边框效果 */  
+    outline: none; 
+}  
+
+/* 搜索框内的LOGO样式 */  
+.search-box .logo {  
+    position: absolute;  
+    left: 15px; 
+    top: 50%; /* 垂直居中 */  
+    transform: translateY(-50%); 
+    width: 30px;  
+    height: 30px; 
+    background-image: url(网站logo.jpg);  
+    background-size: cover; /* 确保LOGO图片覆盖整个容器 */  
+}  
+  
+/* 搜索图标样式 */  
+.search-box .search-icon {  
+    position: absolute;  
+    right: 15px; 
+    top: 50%;  
+    transform: translateY(-50%); 
+    width: 20px; 
+    height: 20px; 
+    background-image: url(搜索图标.jpg);   
+    background-size: cover; 
+    cursor: pointer; /* 图标也可以作为点击区域 */  
+}  
+
+/*搜索框的按钮*/
+.search-box button {
+    padding: 5px;
+    background-color:#ccc;
+    border: none;
+    cursor: pointer;/*按钮可以点击*/
+}
+/* 搜索框整体边框样式 */  
+.search-box {  
+    border: 1px solid #ccc; 
+}
+/*用户操作*/
+.user-actions a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #fff;
+    border: 1px solid #fff;
+    padding: 10px 20px;
+    border-radius: 20px;
+}
+.user-actions a:hover {
+    background-color: #489b62;
+}
+
+/* 导航栏样式 */
+nav {
+    background-color: #a3c1ac;
+    padding: 10px 20px;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+nav ul li {
+    display: inline-block;
+    transition: transform 0.3s ease-in-out;
+}
+
+nav ul li a {
+    display: block;
+    text-decoration: none;
+    color: #666;
+    font-size: 16px;
+    font-weight: bold;
+    border: 2px solid transparent;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+nav ul li a:hover {
+    background-color: #76a382;
+}
+
+.container {
+    display: flex; 
+}
+
+/* 滑动幻灯片样式 */
+.slideshow-container {
+    flex: 70%; 
+    position: relative;
+    width: 200px;
+    height: 480px;
+    overflow: hidden;
+    
+} 
+.slides img {  
+    width: 100%;
+    height: auto;
+}
+/*右侧图片*/
+.side-images {
+    flex: 35%; 
+    position: relative;
+    
+}
+
+.side-images ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.side-images li {
+    position: relative;
+    margin-bottom: 5px;
+}
+
+
+.image-text {
+    position: relative;
+}
+
+.image-text img {
+    width: 100%; 
+    height: auto;
+}
+
+.image-text span {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.5); 
+    color: #464545; 
+    padding: 5px;
+    text-align: center;
+}
+/*圆点区域*/
+.dots {  
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%); 
+}  
+  
+.dot {  
+    display: inline-block;  
+    width: 10px;  
+    height: 10px;  
+    background-color: #bbb;  
+    border-radius: 50%;  
+    margin: 0 5px;  
+    cursor: pointer;  
+}  
+  
+.dot.active {  
+    background-color: #555;  
+} 
+
+/* 内容区样式 */
+.content-section {
+    padding: 20px;
+    margin-top: 20px;
+}
+
+/* 行样式 */
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+/* 栏目样式 */
+.column {
+    flex: 1;
+    padding: 10px;
+    margin-right: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.column:last-child {
+    margin-right: 0;
+}
+
+.column h2 {
+    margin-bottom: 10px;
+}
+
+.column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.column ul li a {
+    color: #0066cc;
+    text-decoration: none;
+    transition: color 0.2s;
+    padding: 5px 0;
+    display: block;
+}
+
+.column ul li a:hover {
+    color: #004080;
+}
+
+/*脚注*/
+footer {  
+    background-image: url('header1.png');   
+    background-repeat: no-repeat;  
+    background-size: cover; 
+    text-align: center;  
+    padding: 20px;  
+    border: 3px solid black;  
+}
+/* 媒体查询 */
+@media screen and (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-bottom: 10px;
+    }
+
+    .user-actions {
+        align-self: flex-end;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .search-box input[type="text"] {
+        width: calc(100% - 80px);
+        padding: 10px;
+    }
+
+    .search-box .logo {
+        width: 20px;
+        height: 20px;
+    }
+
+    .search-box .search-icon {
+        width: 15px;
+        height: 15px;
+        right: 5px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .slideshow-container {
+        width: 100%;
+        height: auto;
+    }
+
+    .slides,
+    .side-images {
+        width: 100%;
+        order: 2;
+    }
+
+    .side-images {
+        margin-top: 20px;
+    }
+
+    .side-images ul {
+        padding-left: 0;
+    }
+
+    .side-images li {
+        margin-right: 0;
+    }
+}
+
+/*logout*/
+
+.Btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 45px;
+  height: 45px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition-duration: .3s;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+  background-color: rgb(75, 148, 75);
+}
+
+/* plus sign */
+.sign {
+    width: 100%;
+    transition-duration: .3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .sign svg {
+    width: 17px;
+  }
+  
+  .sign svg path {
+    fill: white;
+  }
+  /* text */
+  .text {
+    position: absolute;
+    right: 0%;
+    width: 0%;
+    opacity: 0;
+    color: white;
+    font-size: 1.2em;
+    font-weight: 600;
+    transition-duration: .3s;
+  }
+
+  .Btn:hover {
+    width: 125px;
+    border-radius: 40px;
+    transition-duration: .3s;
+  }
+  
+  .Btn:hover .sign {
+    width: 30%;
+    transition-duration: .3s;
+    padding-left: 0px;
+  }
+  
+  .Btn:hover .text {
+    opacity: 1;
+    width: 70%;
+    transition-duration: .3s;
+    padding-right: 0px;
+  }
+  
+  .Btn:active {
+    transform: translate(2px ,2px);
+  }
+  .modal {  
+    display: none;  
+    position: fixed;  
+    z-index: 1;  
+    left: 0;  
+    top: 0;  
+    width: 100%;  
+    height: 100%;  
+    overflow: auto;  
+    background-color: rgba(0, 0, 0, 0.4); 
+}  
+
+.modal-content {  
+    background-color: #b9f6ca; 
+    position: absolute; 
+    top: 50%;  
+    left: 50%;   
+    transform: translate(-50%, -50%);
+    padding: 20px;  
+    border: 1px solid #888;  
+    /* 假设我们想要一个正方形模态框内容区域，这里使用vw单位来保持响应式 */  
+    width: 50vw; /* 视口宽度的50% */  
+    max-width: 500px; /* 最大宽度限制，以防视口过大 */  
+    height: auto; /* 高度自动，但内容应适应宽度以保持正方形 */  
+}  
+
+.close {  
+    color: #aaa;  
+    float: right;  
+    font-size: 28px;  
+    font-weight: bold;  
+    cursor: pointer;  
+}  
+
+.close:hover,  
+.close:focus {  
+    color: black;  
+    text-decoration: none;  
+    cursor: pointer;  
+}  
