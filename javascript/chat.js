@@ -189,3 +189,41 @@ chatBox.onmouseleave = () => chatBox.classList.remove("active");
 inputField.onkeyup = updateSendBtnState;
 inputField.focus();
 updateSendBtnState();
+
+// ====== 表情包功能 ======
+const emojiBtn = document.getElementById('emojiBtn');
+const emojiPanel = document.getElementById('emojiPanel');
+
+// 点击表情按钮，切换面板显示
+emojiBtn.onclick = (e) => {
+    e.stopPropagation();
+    emojiPanel.style.display = emojiPanel.style.display === 'none' ? 'flex' : 'none';
+};
+// 点击页面其他地方关闭表情面板
+window.addEventListener('click', function(e) {
+    if (emojiPanel.style.display !== 'none' && !emojiPanel.contains(e.target) && e.target !== emojiBtn) {
+        emojiPanel.style.display = 'none';
+    }
+});
+// 阻止点击面板冒泡
+emojiPanel.onclick = (e) => { e.stopPropagation(); };
+// 选择表情，直接以图片形式发送
+const emojiImgs = emojiPanel.querySelectorAll('.emoji-img');
+emojiImgs.forEach(img => {
+    img.onclick = function() {
+        // 以图片消息方式发送表情
+        const formData = new FormData();
+        formData.append("incoming_id", form.querySelector('.incoming_id').value);
+        formData.append("msg_type", "image");
+        // 直接发送图片URL（后端需支持本地图片路径）
+        formData.append("emoji_path", this.getAttribute('src'));
+        fetch("php/insert-chat.php", {
+            method: "POST",
+            body: formData
+        }).then(() => {
+            emojiPanel.style.display = 'none';
+            updateSendBtnState();
+            scrollToBottom();
+        });
+    };
+});

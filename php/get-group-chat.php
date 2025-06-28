@@ -25,9 +25,18 @@ if (mysqli_num_rows($query) > 0) {
         if ($is_me) {
             $output .= '<div class="chat outgoing"><div class="details">';
             if($row['msg_type'] === 'image' && $row['file_path']){
-                $output .= '<img src="'.$row['file_path'].'" style="max-width:180px;max-height:180px;border-radius:8px;display:block;margin-bottom:4px;">';
+                // 判断是否为表情包图片
+                if(strpos($row['file_path'], 'images/emojis/') === 0){
+                    $output .= '<img class="emoji-img" src="'.$row['file_path'].'" alt="emoji">';
+                }else{
+                    $output .= '<img src="'.$row['file_path'].'" style="max-width:180px;max-height:180px;border-radius:8px;display:block;margin-bottom:4px;">';
+                }
             }elseif($row['msg_type'] === 'file' && $row['file_path']){
-                $output .= '<a href="'.$row['file_path'].'" download style="color:#007bff;">[文件] 点击下载</a>';
+                // 获取文件名和大小
+                $file_name = basename($row['file_path']);
+                $file_size = file_exists('../'.$row['file_path']) ? filesize('../'.$row['file_path']) : 0;
+                $file_size_str = $file_size >= 1048576 ? round($file_size/1048576,2).' MB' : ($file_size >= 1024 ? round($file_size/1024,1).' KB' : $file_size.' B');
+                $output .= '<div class="wx-file-card"><div class="wx-file-icon"><i class="fas fa-file-alt"></i></div><div class="wx-file-info"><div class="wx-file-name">'.htmlspecialchars($file_name).'</div><div class="wx-file-size">'.$file_size_str.'</div></div><a class="wx-file-download" href="'.$row['file_path'].'" download><i class="fas fa-download"></i> 下载</a></div>';
             }else{
                 $output .= '<p>' . $msg . '</p>';
             }
@@ -35,9 +44,18 @@ if (mysqli_num_rows($query) > 0) {
         } else {
             $output .= '<div class="chat incoming"><img src="images/' . $img . '" alt=""><div class="details">';
             if($row['msg_type'] === 'image' && $row['file_path']){
-                $output .= '<img src="'.$row['file_path'].'" style="max-width:180px;max-height:180px;border-radius:8px;display:block;margin-bottom:4px;">';
+                // 判断是否为表情包图片
+                if(strpos($row['file_path'], 'images/emojis/') === 0){
+                    $output .= '<img class="emoji-img" src="'.$row['file_path'].'" alt="emoji">';
+                }else{
+                    $output .= '<img src="'.$row['file_path'].'" style="max-width:180px;max-height:180px;border-radius:8px;display:block;margin-bottom:4px;">';
+                }
             }elseif($row['msg_type'] === 'file' && $row['file_path']){
-                $output .= '<a href="'.$row['file_path'].'" download style="color:#007bff;">[文件] 点击下载</a>';
+                // 获取文件名和大小
+                $file_name = basename($row['file_path']);
+                $file_size = file_exists('../'.$row['file_path']) ? filesize('../'.$row['file_path']) : 0;
+                $file_size_str = $file_size >= 1048576 ? round($file_size/1048576,2).' MB' : ($file_size >= 1024 ? round($file_size/1024,1).' KB' : $file_size.' B');
+                $output .= '<div class="wx-file-card"><div class="wx-file-icon"><i class="fas fa-file-alt"></i></div><div class="wx-file-info"><div class="wx-file-name">'.htmlspecialchars($file_name).'</div><div class="wx-file-size">'.$file_size_str.'</div></div><a class="wx-file-download" href="'.$row['file_path'].'" download><i class="fas fa-download"></i> 下载</a></div>';
             }else{
                 $output .= '<p><b>' . $name . ':</b> ' . $msg . '</p>';
             }

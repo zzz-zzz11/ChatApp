@@ -29,6 +29,11 @@
             }
         }
 
+        // Handle emoji image (本地表情包图片)
+        if($msg_type === 'image' && isset($_POST['emoji_path'])){
+            $file_path = mysqli_real_escape_string($conn, $_POST['emoji_path']);
+        }
+
         // Insert message into database
         if($msg_type === 'text' && !empty($message)){
             $sql = mysqli_query($conn, "INSERT INTO messages (incoming_msg_id, outgoing_msg_id, msg, msg_type) VALUES ({$incoming_id}, {$outgoing_id}, '{$message}', 'text')");

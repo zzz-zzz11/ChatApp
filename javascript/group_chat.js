@@ -12,6 +12,10 @@ const form = document.querySelector(".typing-area"),
 let pendingFile = null;
 let pendingType = null;
 
+// ====== 表情包功能 ======
+const emojiBtn = document.getElementById('emojiBtn');
+const emojiPanel = document.getElementById('emojiPanel');
+
 // 初始化按钮状态
 const initButtons = () => {
     // 图片和文件按钮始终可点击
@@ -31,6 +35,13 @@ const updateSendBtnState = () => {
     const hasContent = inputField.value.trim() !== '' || pendingFile;
     sendBtn.classList.toggle('active', hasContent);
     sendBtn.disabled = !hasContent;
+    // 保证图片和文件按钮始终可用
+    imgBtn.disabled = false;
+    imgBtn.style.pointerEvents = 'auto';
+    imgBtn.style.opacity = '1';
+    fileBtn.disabled = false;
+    fileBtn.style.pointerEvents = 'auto';
+    fileBtn.style.opacity = '1';
 };
 
 // 处理文件预览
@@ -177,6 +188,40 @@ fileInput.onchange = () => {
 inputField.onkeyup = updateSendBtnState;
 chatBox.onmouseenter = () => chatBox.classList.add("active");
 chatBox.onmouseleave = () => chatBox.classList.remove("active");
+
+// 点击表情按钮，切换面板显示
+emojiBtn.onclick = (e) => {
+    e.stopPropagation();
+    emojiPanel.style.display = emojiPanel.style.display === 'none' ? 'flex' : 'none';
+};
+// 点击页面其他地方关闭表情面板
+window.addEventListener('click', function(e) {
+    if (emojiPanel.style.display !== 'none' && !emojiPanel.contains(e.target) && e.target !== emojiBtn) {
+        emojiPanel.style.display = 'none';
+    }
+});
+// 阻止点击面板冒泡
+emojiPanel.onclick = (e) => { e.stopPropagation(); };
+// 选择表情，直接以图片形式发送
+const emojiImgs = emojiPanel.querySelectorAll('.emoji-img');
+emojiImgs.forEach(img => {
+    img.onclick = function() {
+        // 以图片消息方式发送表情
+        const formData = new FormData();
+        formData.append("group_id", groupIdField.value);
+        formData.append("msg_type", "image");
+        // 直接发送图片URL（后端需支持本地图片路径）
+        formData.append("emoji_path", this.getAttribute('src'));
+        fetch("php/insert-group-chat.php", {
+            method: "POST",
+            body: formData
+        }).then(() => {
+            emojiPanel.style.display = 'none';
+            updateSendBtnState();
+            scrollToBottom();
+        });
+    };
+});
 
 // 初始化
 initButtons();

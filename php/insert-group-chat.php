@@ -34,6 +34,11 @@ elseif($msg_type === 'file' && isset($_FILES['file'])){
     }
 }
 
+// Handle emoji image (本地表情包图片)
+if($msg_type === 'image' && isset($_POST['emoji_path'])){
+    $file_path = mysqli_real_escape_string($conn, $_POST['emoji_path']);
+}
+
 // Insert message into database
 if($msg_type === 'text' && !empty($message)){
     $sql = "INSERT INTO group_messages (group_id, user_id, msg, msg_type) VALUES ({$group_id}, {$user_id}, '{$message}', 'text')";
