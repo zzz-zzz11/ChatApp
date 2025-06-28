@@ -51,7 +51,9 @@ document.getElementById("createGroupForm").onsubmit = function(e) {
     xhr.open("POST", "php/create_group.php", true);
     xhr.onload = function() {
         if(xhr.status === 200) {
+            console.log('服务器响应:', xhr.responseText);
             if(xhr.responseText.trim() === "success") {
+                window.alert('创建成功');
                 window.location.href = "users.php";
             } else {
                 document.querySelector(".error-text").textContent = xhr.responseText;

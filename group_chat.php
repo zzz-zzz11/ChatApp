@@ -26,11 +26,16 @@ $group = mysqli_fetch_assoc($group);
         </div>
             <div class="chat-box" style="background: #f8f8f8;height: 480px;overflow-y: auto;padding: 20px;border-radius: 8px;margin-bottom: 15px;">
       </div>
-      <form action="#" class="typing-area" style="display: flex;align-items: center;gap: 10px;padding: 18px 20px;background: #fff;">
+      <div id="preview-area" style="display:none;margin:0 0 10px 0;"></div>
+      <form action="#" class="typing-area" enctype="multipart/form-data" style="display: flex;align-items: center;gap: 10px;padding: 18px 20px;background: #fff;">
         <input type="text" class="group_id" name="group_id" value="<?php echo $_GET['group_id']; ?>" hidden>
+        <button type="button" id="imgBtn" style="margin-right:5px;"><i class="fas fa-image"></i></button>
+        <input type="file" id="imgInput" name="image" accept="image/*" style="display:none;">
+        <button type="button" id="fileBtn" style="margin-right:5px;"><i class="fas fa-paperclip"></i></button>
+        <input type="file" id="fileInput" name="file" style="display:none;">
         <input type="text" name="message" class="input-field" placeholder="输入消息..." autocomplete="off">
-        <button><i class="fab fa-telegram-plane"></i></button>
-            </form>
+        <button type="submit"><i class="fab fa-telegram-plane"></i></button>
+      </form>
     </section>
   </div>
 <script>
@@ -65,5 +70,4 @@ document.getElementById("inviteFriendBtn").onclick = function() {
     xhr.send();
 }
 </script>
-</div>
 <script src="javascript/group_chat.js"></script>

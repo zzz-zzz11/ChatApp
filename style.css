@@ -110,7 +110,6 @@ body{
   text-decoration: underline;
 }
 
-
 /* Users List CSS Start */
 .deaf_mesg{
   color: #000;
@@ -349,36 +348,84 @@ body{
   color: #333;
   border-radius: 18px 18px 18px 0;
 }
+/* ========== 重点修改的输入区域样式 ========== */
 .typing-area{
-  padding: 18px 30px;
+  padding: 12px 16px;
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border-top: 1px solid #eee;
 }
+
+/* 输入框样式 */
 .typing-area input{
+  flex: 1;
   height: 45px;
-  width: calc(100% - 58px);
+  padding: 0 15px;
   font-size: 16px;
-  padding: 0 13px;
   border: 1px solid #e6e6e6;
   outline: none;
-  border-radius: 5px 0 0 5px;
-}
-.typing-area button{
-  color: #fff;
-  width: 55px;
-  border: none;
-  outline: none;
-  background: #333;
-  font-size: 19px;
-  cursor: pointer;
-  opacity: 0.7;
-  pointer-events: none;
-  border-radius: 0 5px 5px 0;
+  border-radius: 25px;
   transition: all 0.3s ease;
 }
-.typing-area button.active{
+.typing-area input:focus{
+  border-color: #666;
+}
+
+/* 图片/文件按钮 - 强制可点击状态 */
+#imgBtn, 
+#fileBtn {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #666;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transition: all 0.3s ease;
+}
+#imgBtn:hover, 
+#fileBtn:hover {
+  background: #888;
+  transform: scale(1.05);
+}
+#imgBtn:active, 
+#fileBtn:active {
+  transform: scale(0.98);
+}
+
+/* 发送按钮 - 动态状态 */
+.typing-area button[type="submit"] {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  opacity: 0.7;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+.typing-area button[type="submit"].active {
   opacity: 1;
   pointer-events: auto;
+  background: #4CAF50;
+}
+/* 预览区域 */
+#preview-area {
+  margin: 0 0 10px 0;
+  padding: 8px;
+  background: rgba(0,0,0,0.03);
+  border-radius: 8px;
 }
 
 /* Responive media query */
@@ -446,7 +493,6 @@ body{
     width: 45px;
   }
 }
-
 
 @media (prefers-color-scheme: dark) {
   body{

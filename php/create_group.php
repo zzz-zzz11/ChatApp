@@ -9,10 +9,11 @@ if (!isset($_SESSION['unique_id'])) {
 
 $group_name = mysqli_real_escape_string($conn, $_POST['group_name']);
 $owner_id = $_SESSION['unique_id'];
-$group_avatar = mysqli_real_escape_string($conn, $avatar_name); // 修正变量顺序并正确引用文件名
-
+$avatar_name = '';
 if(isset($_FILES['group_avatar']) && !empty($group_name)){
         $avatar_name = $_FILES['group_avatar']['name'];
+        $group_avatar = mysqli_real_escape_string($conn, $avatar_name); // 修正变量顺序
+
         $avatar_tmp_name = $_FILES['group_avatar']['tmp_name'];
         $avatar_size = $_FILES['group_avatar']['size'];
         $avatar_folder = '../images/' . $avatar_name;
@@ -39,10 +40,17 @@ if(isset($_FILES['group_avatar']) && !empty($group_name)){
         $group_id = mysqli_insert_id($conn);
         // 群主自动加入群
         $sql2 = "INSERT INTO group_members (group_id, user_id) VALUES ({$group_id}, {$owner_id})";
-        mysqli_query($conn, $sql2);
+        if(!mysqli_query($conn, $sql2)) {
+            echo "添加群主失败: " . mysqli_error($conn);
+            exit();
+        }
         echo "success";
+        exit();
     } else {
-        echo "创建群聊失败";
+        // 删除已上传的头像文件
+        @unlink('../images/' . $avatar_name);
+        echo "群创建失败: " . mysqli_error($conn);
+        exit();
     }
 } else {
     echo "群名不能为空";
