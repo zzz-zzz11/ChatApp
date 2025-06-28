@@ -20,19 +20,19 @@ $output = "";
 if(mysqli_num_rows($query) > 0){
     while($row = mysqli_fetch_assoc($query)){
         $offline = ($row['status'] == "Offline now") ? "offline" : "";
-        $output .= '<div class="content" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding:8px 0;border-bottom:1px solid #eee;">
+        $output .= '<div class="content content-card">
             <div style="display:flex;align-items:center;">
                 <img src="images/'. $row['img'] .'" alt="" style="width:40px;height:40px;border-radius:50%;object-fit:cover;margin-right:10px;">
                 <div class="details">
                     <span>'. $row['fname']. " " . $row['lname'] .'</span>
-                    <div class="status-dot '. $offline .'" style="display:inline-block;margin-left:8px;"><i class="fas fa-circle"></i></div>
+                    
                 </div>
             </div>
-            <button class="invite-btn" data-userid="'.$row['unique_id'].'" style="padding:6px 16px;border:none;background:#4e73df;color:#fff;border-radius:4px;cursor:pointer;">邀请</button>
+            <button class="invite-btn" data-userid="'.$row['unique_id'].'" style="padding:8px 20px;border:none;background:#000000;color:#ffffff;border-radius:20px;cursor:pointer;box-shadow:0 2px 6px rgba(0,198,255,0.3);">邀请</button>
         </div>';
     }
 } else {
     $output = "暂无可邀请的好友";
 }
 echo $output;
-?> 
+?>

@@ -18,14 +18,14 @@ $group = mysqli_fetch_assoc($group);
         <a href="users.php" class="back-icon"><i class="fas fa-arrow-left"></i></a>
         <img src="images/<?php echo htmlspecialchars($group['group_avatar'] ?? 'default_group.png'); ?>" alt="群头像" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
         <div class="details">
-          <span><?php echo htmlspecialchars($group['group_name']); ?></span>
+          <span style="font-size:16px;color:#1f2937;font-weight:600;flex-grow:1;"><?php echo htmlspecialchars($group['group_name']); ?></span>
         </div>
-        <button id="inviteFriendBtn" class="invite-btn" style="margin-left: auto;"><i class="fas fa-user-plus"></i></button>
+        <button id="inviteFriendBtn" class="invite-btn" style="margin-left: auto;padding:8px 20px;border:none;border-radius:20px;background:linear-gradient(135deg, #6366f1, #8b5cf6);color:#fff;cursor:pointer;transition:all 0.2s ease;"><i class="fas fa-user-plus"></i></button>
       </header>
-        <div id="inviteModal" style="display:none; position:fixed; top:20%; left:50%; transform:translateX(-50%); background:#fff; border:1px solid #ccc; padding:20px; z-index:1000;">
-          <h4>邀请好友进群</h4>
-          <div id="inviteList"></div>
-          <button onclick="document.getElementById('inviteModal').style.display='none'">关闭</button>
+        <div id="inviteModal" class="modal" style="position:fixed;width: 300px; top:20%; left:50%; transform:translateX(-50%); background:#fff; border:1px solid #ccc; padding:20px; z-index:1000; display:none;">
+          <h4 style="margin:0 0 16px 0;color:#333;font-size:18px;">邀请好友进群</h4>
+          <div id="inviteList" class="content-card"></div>
+          <button id="closeInviteModal">关闭</button>
         </div>
             <div class="chat-box" style="background: #f8f8f8;height: 480px;overflow-y: auto;padding: 20px;border-radius: 8px;margin-bottom: 15px;">
       </div>
@@ -59,13 +59,26 @@ $group = mysqli_fetch_assoc($group);
 <script>
 document.getElementById("inviteFriendBtn").onclick = function() {
     let modal = document.getElementById("inviteModal");
+    console.log('Invite button clicked, modal:', modal);
     modal.style.display = "block";
+    modal.classList.add('show');
+    
+    // 错误处理
+    window.onerror = function(msg, url, line) {
+      console.error('Error:', msg, 'at', line);
+      alert('发生错误: ' + msg);
+      return true;
+    };
     let xhr = new XMLHttpRequest();
     xhr.open("GET", "php/get-invite-users.php?group_id=<?php echo $group_id; ?>", true);
     xhr.onload = function() {
         if(xhr.status === 200) {
             document.getElementById("inviteList").innerHTML = xhr.responseText;
-            // 绑定邀请按钮事件
+            // 用户项基础样式
+const userItemStyle = 'display:flex;align-items:center;gap:16px;padding:16px;transition:all 0.2s ease;width:100%;margin-bottom:12px;';
+const hoverStyle = 'transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.12);';
+
+// 绑定邀请按钮事件
             document.querySelectorAll('.invite-btn').forEach(function(btn){
                 btn.onclick = function() {
                     let userId = this.getAttribute('data-userid');
@@ -87,5 +100,20 @@ document.getElementById("inviteFriendBtn").onclick = function() {
     }
     xhr.send();
 }
+
+// 关闭模态框事件
+document.getElementById('closeInviteModal').onclick = function() {
+    document.getElementById('inviteModal').style.display = 'none';
+    document.getElementById('inviteModal').classList.remove('show');
+};
+
+// 点击外部关闭
+window.addEventListener('click', function(e) {
+    const modal = document.getElementById('inviteModal');
+    if(e.target === modal) {
+        modal.style.display = 'none';
+        modal.classList.remove('show');
+    }
+});
 </script>
 <script src="javascript/group_chat.js"></script>
