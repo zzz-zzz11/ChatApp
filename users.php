@@ -4,6 +4,13 @@
   if(!isset($_SESSION['unique_id'])){
     header("location: login.php");
   }
+  // 判断是否为管理员
+  $is_admin = 0;
+  $sql_admin = mysqli_query($conn, "SELECT is_admin FROM users WHERE unique_id = {$_SESSION['unique_id']}");
+  if(mysqli_num_rows($sql_admin) > 0){
+    $row_admin = mysqli_fetch_assoc($sql_admin);
+    $is_admin = $row_admin['is_admin'];
+  }
 ?>
 <?php include_once "header.php"; ?>
 <body  style="background-image:url('4.jpg');background-size:cover;background-repeat:no-repeat">
@@ -23,6 +30,9 @@
             <p><?php echo $row['status']; ?></p>
           </div>
         </div>
+        <?php if($is_admin == 1): ?>
+        <a href="admin_panel.php" class="logout" style="background:#2980b9;color:#fff;margin-right:10px;">进入管理员管理成员界面</a>
+        <?php endif; ?>
         <a href="create_group.php" class="logout" style="margin-right:10px;">创建群聊</a>
         <a href="php/logout.php?logout_id=<?php echo $row['unique_id']; ?>" class="logout">Logout</a>
       </header>

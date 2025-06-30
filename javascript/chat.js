@@ -227,3 +227,14 @@ emojiImgs.forEach(img => {
         });
     };
 });
+
+setInterval(function() {
+    fetch('php/get-user-status.php')
+        .then(res => res.json())
+        .then(data => {
+            if(data.status && data.status !== 'Active now') {
+                alert('您已被管理员踢出或下线！');
+                window.location.href = 'login.php';
+            }
+        });
+}, 5000);

@@ -15,6 +15,11 @@ continueBtn.onclick = ()=>{
               let data = xhr.response;
               if(data === "success"){
                 location.href = "users.php";
+              }else if(data && data.indexOf("禁用") !== -1){
+                alert("您的账号已被禁用，请联系管理员。");
+                errorText.style.display = "block";
+                errorText.textContent = data;
+                form.querySelector('input[name="password"]').value = '';
               }else{
                 errorText.style.display = "block";
                 errorText.textContent = data;
