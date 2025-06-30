@@ -18,15 +18,40 @@ $group = mysqli_fetch_assoc($group);
         <a href="users.php" class="back-icon"><i class="fas fa-arrow-left"></i></a>
         <img src="images/<?php echo htmlspecialchars($group['group_avatar'] ?? 'default_group.png'); ?>" alt="群头像" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
         <div class="details">
-          <span style="font-size:16px;color:#1f2937;font-weight:600;flex-grow:1;"><?php echo htmlspecialchars($group['group_name']); ?></span>
+          <?php
+            // 获取群成员数量
+            $member_count = 0;
+            $result = mysqli_query($conn, "SELECT COUNT(*) as cnt FROM group_members WHERE group_id = {$group_id}");
+            if($result && $row = mysqli_fetch_assoc($result)){
+              $member_count = $row['cnt'];
+            }
+          ?>
+          <span style="font-size:16px;color:#1f2937;font-weight:600;flex-grow:1;">
+            <?php echo htmlspecialchars($group['group_name']); ?>
+            <span style="font-size:13px;color:#6366f1;font-weight:400;margin-left:8px;">（<?php echo $member_count; ?>人）</span>
+          </span>
         </div>
-        <button id="inviteFriendBtn" class="invite-btn" style="margin-left: auto;padding:8px 20px;border:none;border-radius:20px;background:linear-gradient(135deg, #6366f1, #8b5cf6);color:#fff;cursor:pointer;transition:all 0.2s ease;"><i class="fas fa-user-plus"></i></button>
+        <button id="inviteFriendBtn" class="invite-btn" style="margin-left: auto;padding:8px 20px;border:none;border-radius:20px;background:linear-gradient(135deg, #6366f1, #8b5cf6);color:#fff;cursor:pointer;transition:all 0.2s ease;"><i class="fas fa-user-plus"></i> 邀请用户</button>
+        <button id="showMembersBtn" class="invite-btn" style="margin-left:10px;padding:8px 20px;border:none;border-radius:20px;background:linear-gradient(135deg,#43cea2,#185a9d);color:#fff;cursor:pointer;transition:all 0.2s ease;"><i class="fas fa-users"></i> 群成员</button>
       </header>
-        <div id="inviteModal" class="modal" style="position:fixed;width: 300px; top:20%; left:50%; transform:translateX(-50%); background:#fff; border:1px solid #ccc; padding:20px; z-index:1000; display:none;">
-          <h4 style="margin:0 0 16px 0;color:#333;font-size:18px;">邀请好友进群</h4>
-          <div id="inviteList" class="content-card"></div>
-          <button id="closeInviteModal">关闭</button>
+      <div id="inviteModal" class="modal">
+        <div class="modal-header">
+          <h4 style="margin:0;color:#333;font-size:18px;">邀请好友进群</h4>
         </div>
+        <div id="inviteList" class="modal-body"></div>
+        <div style="text-align:right;padding:10px 24px 10px 0;">
+          <button id="closeInviteModal" class="logout" style="background:#6366f1;color:#fff;border-radius:8px;padding:6px 18px;">关闭</button>
+        </div>
+      </div>
+      <div id="membersModal" class="modal" style="display:none;">
+        <div class="modal-header">
+          <h4 style="margin:0;color:#333;font-size:18px;">当前群成员</h4>
+        </div>
+        <div id="membersList" class="modal-body"></div>
+        <div style="text-align:right;padding:10px 24px 10px 0;">
+          <button id="closeMembersModal" class="logout" style="background:#43cea2;color:#fff;border-radius:8px;padding:6px 18px;">关闭</button>
+        </div>
+      </div>
             <div class="chat-box" style="background: #f8f8f8;height: 480px;overflow-y: auto;padding: 20px;border-radius: 8px;margin-bottom: 15px;">
       </div>
       <div id="preview-area" style="display:none;margin:0 0 10px 0;"></div>
@@ -114,6 +139,32 @@ window.addEventListener('click', function(e) {
         modal.style.display = 'none';
         modal.classList.remove('show');
     }
+});
+
+// 群成员弹窗逻辑
+const showMembersBtn = document.getElementById('showMembersBtn');
+const membersModal = document.getElementById('membersModal');
+const closeMembersModal = document.getElementById('closeMembersModal');
+showMembersBtn.onclick = function() {
+  membersModal.style.display = 'block';
+  membersModal.classList.add('show');
+  // 获取群成员
+  fetch('php/get-group-members.php?group_id=<?php echo $group_id; ?>')
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById('membersList').innerHTML = html;
+    });
+}
+closeMembersModal.onclick = function() {
+  membersModal.style.display = 'none';
+  membersModal.classList.remove('show');
+};
+// 点击外部关闭membersModal
+window.addEventListener('click', function(e) {
+  if(e.target === membersModal) {
+    membersModal.style.display = 'none';
+    membersModal.classList.remove('show');
+  }
 });
 </script>
 <script src="javascript/group_chat.js"></script>
